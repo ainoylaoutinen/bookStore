@@ -10,6 +10,8 @@ package com.example.bookstore2.domain;
 	import javax.persistence.Id;
 	import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 	@Entity
 	public class Category {
 
@@ -19,6 +21,7 @@ package com.example.bookstore2.domain;
 		private String name;
 		
 		@OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+		@JsonIgnore
 		private List<Book> books;
 		
 		public Category() {}
