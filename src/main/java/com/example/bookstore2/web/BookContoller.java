@@ -1,6 +1,7 @@
 package com.example.bookstore2.web;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,13 +20,17 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@ResponseBody
 public class BookContoller {
 	@Autowired
 	private BookRepository repository; 
 	
 	@Autowired
 	private CategoryRepository drepository; 
+	
+    @RequestMapping(value="/booklogin")
+    public String login() {	
+        return "login";
+    }	
 	
     @GetMapping("/booklist")
     public String bookList(Model model) {	
@@ -46,11 +51,11 @@ public class BookContoller {
         return "redirect:booklist";
     } 
     
-    @GetMapping(value = "/delete/{id}")
-    public String delete(@PathVariable("id") Long bookId, Model model) {
-    	repository.deleteById(bookId);
-        return "redirect:../booklist";
-    }
+   //@GetMapping(value = "/delete/{id}")
+    //public String delete(@PathVariable("id") Long bookId, Model model) {
+    	//repository.deleteById(bookId);
+       // return "redirect:../booklist";
+ //   }
     
     @GetMapping(value= "/edit/{id}")
     public String edit(@PathVariable("id") Long bookId, Model model) {
@@ -70,8 +75,13 @@ public class BookContoller {
     	return repository.findById(bookId);
     }   
     
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
+    public String deleteBook(@PathVariable("id") Long bookId, Model model) {
+    	repository.deleteById(bookId);
+        return "redirect:../booklist";
     
-	    
+    }
 	   
 }
 
