@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class BookContoller {
+public class BookController {
 	@Autowired
 	private BookRepository repository; 
 	

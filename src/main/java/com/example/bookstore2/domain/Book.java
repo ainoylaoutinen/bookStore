@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Book {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
@@ -74,5 +75,11 @@ public class Book {
     public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
+    
+	@Override
+	public String toString() {
+		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", isbn=" + isbn + ", year=" + year
+				+ ", category=" + category + "]";
+	}
 }
 
